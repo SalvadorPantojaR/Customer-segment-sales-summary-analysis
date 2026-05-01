@@ -1,0 +1,17 @@
+# customer_sales_summary.py
+import pandas as pd
+
+df = pd.read_csv("sales_data.csv")
+
+summary = (
+    df.groupby("customer_segment")
+      .agg(
+          total_revenue=("revenue", "sum"),
+          avg_order_value=("revenue", "mean"),
+          total_orders=("order_id", "nunique")
+      )
+      .reset_index()
+      .sort_values("total_revenue", ascending=False)
+)
+
+print(summary)
